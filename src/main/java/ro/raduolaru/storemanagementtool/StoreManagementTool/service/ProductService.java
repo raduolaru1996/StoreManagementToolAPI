@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.extern.slf4j.Slf4j;
 import ro.raduolaru.storemanagementtool.StoreManagementTool.dto.ProductDto;
+import ro.raduolaru.storemanagementtool.StoreManagementTool.exception.ProductNotFoundException;
 import ro.raduolaru.storemanagementtool.StoreManagementTool.mapper.ProductMapper;
 import ro.raduolaru.storemanagementtool.StoreManagementTool.model.Product;
 import ro.raduolaru.storemanagementtool.StoreManagementTool.repository.ProductRepository;
@@ -42,7 +43,7 @@ public class ProductService {
     public ProductDto getProductById(Long id){
         ProductDto product = productRepository.findById(id)
                                 .map(productMapper::toDto)
-                                .orElseThrow(() -> new RuntimeException("[getProductById] Could not find product."));
+                                .orElseThrow(() -> new ProductNotFoundException(id));
         log.info("Serving product with ID=" + product.getId());
         return product;
     }
@@ -51,7 +52,7 @@ public class ProductService {
     public List<ProductDto> getProductsByName(String name){
         List<Product> productEntities = productRepository.findByNameContainingIgnoreCase(name);
         if (productEntities.isEmpty()){
-            throw new RuntimeException("No products for NAME=" + name);
+            throw new ProductNotFoundException(name);
         }
 
         log.info("Serving " + productEntities.size() + " products for NAME=" + name);
@@ -61,8 +62,12 @@ public class ProductService {
 
     @Transactional(propagation = Propagation.REQUIRED)
     public ProductDto patchProductPrice(Long id, Double price) {
+        if (price < 0){
+            throw new RuntimeException("Price must be positive");
+        }
+
         log.info("PATCH Request for id=" + id + " with new PRICE=" + price);
-        Product product = productRepository.findById(id).orElseThrow(() -> new RuntimeException("[patchProductPrice] Could not find product."));
+        Product product = productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
         product.setPrice(price);
         return productMapper.toDto(productRepository.save(product));
     }
@@ -70,7 +75,7 @@ public class ProductService {
     @Transactional(propagation = Propagation.REQUIRED)
     public ProductDto patchProductName(Long id, String name) {
         log.info("PATCH Request for id=" + id + " with new NAME=" + name);
-        Product product = productRepository.findById(id).orElseThrow(() -> new RuntimeException("[patchProductPrice] Could not find product."));
+        Product product = productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
         product.setName(name);
         return productMapper.toDto(productRepository.save(product));
     }
@@ -78,7 +83,7 @@ public class ProductService {
     @Transactional(propagation = Propagation.REQUIRED)
     public ProductDto patchProductIsActive(Long id, Boolean isActive) {
         log.info("PATCH Request for id=" + id + " with new ISACTIVE=" + isActive);
-        Product product = productRepository.findById(id).orElseThrow(() -> new RuntimeException("[patchProductPrice] Could not find product."));
+        Product product = productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
         product.setIsActive(isActive);
         return productMapper.toDto(productRepository.save(product));
     }

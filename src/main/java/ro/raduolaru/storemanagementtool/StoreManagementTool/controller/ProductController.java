@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import ro.raduolaru.storemanagementtool.StoreManagementTool.dto.ProductDto;
-import ro.raduolaru.storemanagementtool.StoreManagementTool.model.ProductIsActiveUpdateRequest;
-import ro.raduolaru.storemanagementtool.StoreManagementTool.model.ProductNameUpdateRequest;
-import ro.raduolaru.storemanagementtool.StoreManagementTool.model.ProductPriceUpdateRequest;
+import ro.raduolaru.storemanagementtool.StoreManagementTool.dto.ProductIsActiveUpdateRequest;
+import ro.raduolaru.storemanagementtool.StoreManagementTool.dto.ProductNameUpdateRequest;
+import ro.raduolaru.storemanagementtool.StoreManagementTool.dto.ProductPriceUpdateRequest;
 import ro.raduolaru.storemanagementtool.StoreManagementTool.repository.ProductRepository;
 import ro.raduolaru.storemanagementtool.StoreManagementTool.service.ProductService;
 
