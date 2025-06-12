@@ -18,10 +18,12 @@ public class ProductService {
         this.productMapper = productMapper;
     }
 
+    @Transactional(propagation = Propagation.REQUIRED)
     public ProductDto addProduct(ProductDto productDto){
         return productMapper.toDto(productRepository.save(productMapper.toEntity(productDto)));
     }
 
+    @Transactional(readOnly = true)
     public List<ProductDto> getProducts(){
         return productRepository.findAll().stream()
             .map(productMapper::toDto)
