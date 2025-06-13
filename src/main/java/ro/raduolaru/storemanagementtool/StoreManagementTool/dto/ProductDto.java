@@ -20,6 +20,7 @@ public class ProductDto {
 
     @NotBlank(message = "ProductDto VALIDATION - Name cannot be NULL or blank")
     private String name;
+    
     private String description;
 
     @NotNull(message = "ProductDto VALIDATION - Price cannot be NULL")

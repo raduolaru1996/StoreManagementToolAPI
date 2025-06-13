@@ -16,7 +16,7 @@ import ro.raduolaru.storemanagementtool.StoreManagementTool.service.AuthService;
 @RequiredArgsConstructor
 public class AuthController {
     private final AuthService authService;
-
+    
     @PostMapping("/register")
     public ResponseEntity<AuthResponse> register(@RequestBody AuthRequest request){
         return ResponseEntity.ok(authService.register(request));
