@@ -62,9 +62,9 @@ public class ProductServiceTests {
 
     @Test
     void addValidProduct_savesAndReturnsProduct(){
-        Product product = new Product(1L, "TEST", "", 100.0, 100, true, LocalDateTime.now(), LocalDateTime.now());
-        ProductDto productDto = new ProductDto(1l, "TEST", "", 100.0, 100, true, LocalDateTime.now(), LocalDateTime.now());
-        ProductDto expectedDto = new ProductDto(1l, "TEST", "", 100.0, 100, true, LocalDateTime.now(), LocalDateTime.now());
+        Product product = new Product(1L, "TEST", "", 30.0, 100, true, LocalDateTime.now(), LocalDateTime.now());
+        ProductDto productDto = new ProductDto(1l, "TEST", "", 30.0, 100, true, LocalDateTime.now(), LocalDateTime.now());
+        ProductDto expectedDto = new ProductDto(1l, "TEST", "", 30.0, 100, true, LocalDateTime.now(), LocalDateTime.now());
 
         when(productRepository.save(product)).thenReturn(product);
         when(productMapper.toDto(product)).thenReturn(productDto);

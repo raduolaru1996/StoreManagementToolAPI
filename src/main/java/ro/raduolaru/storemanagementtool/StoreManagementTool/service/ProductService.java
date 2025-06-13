@@ -11,7 +11,9 @@ import ro.raduolaru.storemanagementtool.StoreManagementTool.dto.ProductDto;
 import ro.raduolaru.storemanagementtool.StoreManagementTool.exception.ProductNotFoundException;
 import ro.raduolaru.storemanagementtool.StoreManagementTool.mapper.ProductMapper;
 import ro.raduolaru.storemanagementtool.StoreManagementTool.model.Product;
+import ro.raduolaru.storemanagementtool.StoreManagementTool.model.discount.DiscountPolicy;
 import ro.raduolaru.storemanagementtool.StoreManagementTool.repository.ProductRepository;
+import ro.raduolaru.storemanagementtool.StoreManagementTool.util.DiscountPolicyFactory;
 
 @Slf4j
 @Service
@@ -27,6 +29,14 @@ public class ProductService {
     @Transactional(propagation = Propagation.REQUIRED)
     public ProductDto addProduct(ProductDto productDto){
         log.info("Add product request -> " + productDto.getName());
+
+        DiscountPolicy discount = DiscountPolicyFactory.discountForPrice(productDto.getPrice());
+        Double finalPrice = discount.applyDiscount(productDto.getPrice());
+
+        productDto.setPrice(finalPrice);
+
+        log.info("Applied " + discount.discountInfo());
+
         return productMapper.toDto(productRepository.save(productMapper.toEntity(productDto)));
     }
 
