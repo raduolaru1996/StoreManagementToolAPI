@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.validation.Valid;
 import ro.raduolaru.storemanagementtool.StoreManagementTool.dto.ProductDto;
 import ro.raduolaru.storemanagementtool.StoreManagementTool.dto.ProductIsActiveUpdateRequest;
 import ro.raduolaru.storemanagementtool.StoreManagementTool.dto.ProductNameUpdateRequest;
@@ -41,22 +42,22 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<ProductDto> addProduct(@RequestBody ProductDto productDto) {
+    public ResponseEntity<ProductDto> addProduct(@RequestBody @Valid ProductDto productDto) {
         return ResponseEntity.ok(productService.addProduct(productDto));
     }
 
     @PatchMapping("/{id}/price")
-    public ResponseEntity<ProductDto> patchProductPrice(@PathVariable Long id, @RequestBody ProductPriceUpdateRequest request) {
+    public ResponseEntity<ProductDto> patchProductPrice(@PathVariable Long id, @RequestBody @Valid ProductPriceUpdateRequest request) {
         return ResponseEntity.ok(productService.patchProductPrice(id, request.price()));
     }
     
     @PatchMapping("/{id}/name")
-    public ResponseEntity<ProductDto> patchProductName(@PathVariable Long id, @RequestBody ProductNameUpdateRequest request) {
+    public ResponseEntity<ProductDto> patchProductName(@PathVariable Long id, @RequestBody @Valid ProductNameUpdateRequest request) {
         return ResponseEntity.ok(productService.patchProductName(id, request.name()));
     }
 
     @PatchMapping("/{id}/isActive")
-    public ResponseEntity<ProductDto> patchProductIsActive(@PathVariable Long id, @RequestBody ProductIsActiveUpdateRequest request) {
+    public ResponseEntity<ProductDto> patchProductIsActive(@PathVariable Long id, @RequestBody @Valid ProductIsActiveUpdateRequest request) {
         return ResponseEntity.ok(productService.patchProductIsActive(id, request.isActive()));
     }
 }
